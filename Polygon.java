@@ -37,9 +37,8 @@ public class Polygon {
            
            // If the vertices list has only 2 vertices, only 1 edge exists
            // which is the one between those two points. However once a third
-           // vertex is added the polygon must connect the last vertex to the 
-           // first. The updateEdges method handles this once at least 3 vertices
-           // exist.
+           // vertex is added the polygon must contain 3 vertices and so on. The
+           // updateEdges method handles this once at least 3 vertices exist.
            if(vertices.size() >= 3){ 
                updateEdges(newVert);
            }
@@ -49,8 +48,10 @@ public class Polygon {
     }
     
     private void updateEdges(Vertex newVert) {
-        //The new vertex is now the last and indices start a 0
+        // The new vertex is now the last and indices start a 0. So attach the
+        // previous vertex to the new one and then the new one to the first
         int prevLastVert = vertices.size() - 2;
         edges.add(new Edge(vertices.get(prevLastVert), newVert));
+        edges.add(new Edge(newVert, vertices.get(0)));
     }
 }
