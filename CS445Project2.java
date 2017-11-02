@@ -39,6 +39,8 @@ public class CS445Project2 {
     public static final int DISPLAY_WIDTH = 640;
     private static String[] fileData;
     private static ArrayList<Polygon> polygons;
+    
+    
     // Method: createWindow
     // Purpose: Method in charge of creating window
     private void createWindow() throws Exception{
