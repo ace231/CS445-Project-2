@@ -18,7 +18,9 @@ package cs445.project2;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import org.lwjgl.LWJGLException;
 import static org.lwjgl.opengl.GL11.*;
 import static java.lang.Math.PI;
@@ -100,7 +102,7 @@ public class CS445Project2 {
     }
     
     
-    public static void main(String[] args) {
+    public static void main(String[] args){
         try{
             File file = new File("src\\cs445\\project2\\coordinates.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -111,9 +113,11 @@ public class CS445Project2 {
             fileData = allData.split("[, ]");
             
             for(int i = 0; i < fileData.length; i ++){
+                
                 String currData = fileData[i].toUpperCase();
                 switch(currData) {
                     case "P":
+                        System.out.println("Polygon created..");
                         Polygon newPoly = new Polygon();
                         newPoly.setColor(Float.parseFloat(fileData[i + 1]),
                                          Float.parseFloat(fileData[i + 2]),
@@ -127,15 +131,18 @@ public class CS445Project2 {
                             } catch(NumberFormatException e) {
                                 
                             }
-                        }
-                }
+                        }// End of while loop
+                }// End of switch
                 System.out.println(fileData[i]);
+            }// End of for loop
             
-            }
-            
-        }catch(Exception e) {
+        }catch(FileNotFoundException e) {
             System.out.println("The file was not found...");
-        }
-    }
+        }catch(IOException e){
+            System.out.println("Error occurred while reading file...");
+            e.printStackTrace();
+        }// End of try catch
+        
+    }// End of main
     
 }

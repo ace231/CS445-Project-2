@@ -61,4 +61,5 @@ public class Polygon {
         edges.add(new Edge(vertices.get(prevLastVert), newVert));
         edges.add(new Edge(newVert, vertices.get(0)));
     }
+    
 }

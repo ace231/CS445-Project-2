@@ -33,4 +33,9 @@ public class Vertex {
     public void setY(float Y) {
         this.y = y;
     }
+    
+    @Override
+    public String toString(){
+        return String.format("(%f, %f)", x, y);
+    }
 }

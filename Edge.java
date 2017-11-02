@@ -34,4 +34,10 @@ public class Edge {
         slope = (end.getY() - start.getY()) / (end.getX() - start.getX());
     }
     
+    @Override
+    public String toString(){
+        return String.format("Start:(%f, %f), End:(%f, %f)", 
+                            start.getX(), start.getY(),
+                            end.getX(), end.getY());
+    }
 }
