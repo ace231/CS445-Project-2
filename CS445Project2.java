@@ -27,6 +27,7 @@ import static java.lang.Math.sin;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import java.util.ArrayList;
 
 public class CS445Project2 {
 
@@ -37,7 +38,7 @@ public class CS445Project2 {
     public static final int DISPLAY_HEIGHT = 480;
     public static final int DISPLAY_WIDTH = 640;
     private static String[] fileData;
-	
+    private static ArrayList<Polygon> polygons;
     // Method: createWindow
     // Purpose: Method in charge of creating window
     private void createWindow() throws Exception{
@@ -108,6 +109,24 @@ public class CS445Project2 {
             fileData = allData.split("[, ]");
             
             for(int i = 0; i < fileData.length; i ++){
+                String currData = fileData[i].toUpperCase();
+                switch(currData) {
+                    case "P":
+                        Polygon newPoly = new Polygon();
+                        newPoly.setColor(Float.parseFloat(fileData[i + 1]),
+                                         Float.parseFloat(fileData[i + 2]),
+                                         Float.parseFloat(fileData[i + 3]));
+                        while(true) {
+                            System.out.println("Careful in loop");
+                            int j = i + 4;
+                            try {
+                                newPoly.addVertex(Float.parseFloat(fileData[j]),
+                                              Float.parseFloat(fileData[j + 1]));
+                            } catch(NumberFormatException e) {
+                                
+                            }
+                        }
+                }
                 System.out.println(fileData[i]);
             
             }

@@ -23,6 +23,13 @@ public class Polygon {
         color = new float[3]; // Color values in OpenGL are 3 float values
     }
     
+    
+    public void setColor(float r, float g, float b) {
+        color[0] = r;
+        color[1] = g;
+        color[2] = b;
+    }
+    
     // Method: addVertex
     // Purpose: Adds new vertex to vertex list and also creates a new edge from
     // that new vertex to the previous vertex, as long as the vertex does not
