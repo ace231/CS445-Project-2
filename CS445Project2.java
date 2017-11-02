@@ -112,26 +112,51 @@ public class CS445Project2 {
             }
             fileData = allData.split("[, ]");
             
-            for(int i = 0; i < fileData.length; i ++){
+            for(int i = 0; i < fileData.length; i++) {
                 
                 String currData = fileData[i].toUpperCase();
                 switch(currData) {
                     case "P":
                         System.out.println("Polygon created..");
                         Polygon newPoly = new Polygon();
+                        // Next 3 elements are RGB values
                         newPoly.setColor(Float.parseFloat(fileData[i + 1]),
                                          Float.parseFloat(fileData[i + 2]),
                                          Float.parseFloat(fileData[i + 3]));
+                        
+                        // After that all elements until a 'T' are vertices
+                        // which are added to the polygon in pairs. J is used
+                        // as an index value while numVerts is a sort of offset
+                        // used when the loops breaks out to take in transformation
+                        // commands
+                        int numVerts = 0;
+                        
+                        // The 'P' and RGB values take up 4 elements
+                        int j = i + 4; 
+                        
                         while(true) {
-                            System.out.println("Careful in loop");
-                            int j = i + 4;
+                            System.out.println("Careful in loop");//delete
                             try {
                                 newPoly.addVertex(Float.parseFloat(fileData[j]),
                                               Float.parseFloat(fileData[j + 1]));
+                                numVerts++;
+                                j +=2;
                             } catch(NumberFormatException e) {
-                                
+                                System.out.println("Transformation command detected");
+                                break;
                             }
                         }// End of while loop
+                        
+                        // j kept track of things inside while loop, so i has
+                        // to be updated. numVerts has to jump i past all the
+                        // vertices and to the element that begins the commands
+                        // for transformations
+                        i += (numVerts * 2);
+                        
+                    case "T":
+                        System.out.println("Beginning trasnformations...");
+                        
+                        
                 }// End of switch
                 System.out.println(fileData[i]);
             }// End of for loop

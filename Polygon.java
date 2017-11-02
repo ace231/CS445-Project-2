@@ -36,19 +36,20 @@ public class Polygon {
     // already exist
     public void addVertex(float x, float y) {
         Vertex newVert = new Vertex(x, y);
+        System.out.println("Adding " + newVert);//delete
         // Only add the vertex to the list if it's the first, do nothing else
         if(vertices.size() == 0 || vertices.isEmpty()) {
                 vertices.add(newVert);
-        } else if(!vertices.contains(newVert)) {
+        } else if(!vertices.contains(newVert)) {// Check if vertex exists
            vertices.add(newVert);
            
            // If the vertices list has only 2 vertices, only 1 edge exists
            // which is the one between those two points. However once a third
            // vertex is added the polygon must contain 3 vertices and so on. The
            // updateEdges method handles this once at least 3 vertices exist.
-           if(vertices.size() >= 3){ 
-               updateEdges(newVert);
-           }
+           //if(vertices.size() >= 3){ 
+             //  updateEdges(newVert);
+           //}
         } else {
             System.out.printf("(%f,%f) already exists for this polygon ", x, y);
         }
