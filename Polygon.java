@@ -17,12 +17,13 @@ public class Polygon {
     private ArrayList<Vertex> vertices;
     private ArrayList<Edge> edges;
     private float[] color;
-    
+    private ArrayList<String> commands;
     
     public Polygon(){
         vertices = new ArrayList();
         edges = new ArrayList();
         color = new float[3]; // Color values in OpenGL are 3 float values
+        commands = new ArrayList();
     }
     
     
@@ -34,6 +35,11 @@ public class Polygon {
         color[2] = b;
     }// End of setColor
     
+    // Method:
+    // Purpose:
+    public void addCommands(ArrayList<String> commands) {
+        this.commands = commands;
+    }
     
     // Method: addVertex
     // Purpose: Adds new vertex to vertex list and also creates a new edge from

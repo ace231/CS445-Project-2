@@ -7,7 +7,8 @@
 * Date last modified: 11//17
 *
 * Purpose: This program will load information from a text file
-* which specify a polygon
+* which specifies a polygon along with transformation to be made 
+* to that polygon before it is filled
 *******************************/
 package cs445.project2;
 
@@ -33,9 +34,6 @@ import java.util.ArrayList;
 
 public class CS445Project2 {
 
-    /**
-     * @param args the command line arguments
-     */
     // Setting up width, height, and 
     public static final int DISPLAY_HEIGHT = 480;
     public static final int DISPLAY_WIDTH = 640;
@@ -96,7 +94,7 @@ public class CS445Project2 {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
             // Setting of background
-            glColor3f(0.5f,0.5f,1.0f);
+            glColor3f(0.0f,0.0f,0.0f);
             
         }
     }
@@ -158,20 +156,32 @@ public class CS445Project2 {
                     case "T":
                         System.out.println("Beginning trasnformations...");
                         i++; // move forward 1 element since 'T' was detected
-                        if(fileData[i].charAt(0) == 'r') {
-                            i++;// r character detected so move up 1
-                                // next number is degrees to rotate
-                            // next 2 are coordinates to rotate around
-                        } else if(fileData[i].charAt(0) == 's') {
-                            i++;// s character detected so move up 1
-                            // next 2 numbers are x and y scaling cals respectiv
-                            // next 2 nums are the pivot point
-                        } else if(fileData[i].charAt(0) == 't') {
-                            i++;// t char, move up 1
-                            // next 2 nums are translation coordinates
+                        int k = i;
+                        // After a 'T' this loop will continue until the next 'p'
+                        // It will save the transformation commands and add them
+                        // to the polygon object which will take care of what
+                        // to do with them
+                        ArrayList<String> temp = new ArrayList();
+                        while(!fileData[k].equals("P")) {
+                            temp.add(fileData[k]);
+                            k++;
+                            /*if(fileData[i].charAt(0) == 'r') {
+                                i++;// r character detected so move up 1
+                                float degrees, x1, y1, x2, y2;
+                                degrees = Float.parseFloat(fileData[i]); // next number is degrees to rotate
+                                x1 = Float.parseFloat(fileData[i + 1]); // next 2 are coordinates to rotate around
+                                y1 = Float.parseFloat(fileData[i + 2]);
+                                x2 = Float.parseFloat(fileData[i + 3]);
+                                y2 = Float.parseFloat(fileData[i + 4]);
+                            } else if(fileData[i].charAt(0) == 's') {
+                                i++;// s character detected so move up 1
+                                // next 2 numbers are x and y scaling cals respectiv
+                                // next 2 nums are the pivot point
+                            } else if(fileData[i].charAt(0) == 't') {
+                                i++;// t char, move up 1
+                                // next 2 nums are translation coordinates
+                            }*/
                         }
-                        
-                        
                         
                 }// End of switch
                 System.out.println(fileData[i]);
