@@ -9,6 +9,7 @@ package cs445.project2;
  *
  * @author Alfredo
  */
+
 public class Vertex {
     private float x;
     private float y;
@@ -18,22 +19,37 @@ public class Vertex {
         this.y = y;
     }
     
+    
+    // Method:
+    // Purpose:
     public float getX(){
         return x;
     }
     
+    
+    // Method:
+    // Purpose:
     public float getY(){
         return y;
     }
     
+    
+    // Method:
+    // Purpose:
     public void setX(float x){
         this.x = x;
     }
     
-    public void setY(float Y) {
+    
+    // Method:
+    // Purpose:
+    public void setY(float y) {
         this.y = y;
     }
     
+    
+    // Method:
+    // Purpose:
     @Override
     public String toString(){
         return String.format("(%f, %f)", x, y);

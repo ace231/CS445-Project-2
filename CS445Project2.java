@@ -102,6 +102,8 @@ public class CS445Project2 {
     }
     
     
+    // Method:
+    // Purpose:
     public static void main(String[] args){
         try{
             File file = new File("src\\cs445\\project2\\coordinates.txt");
@@ -155,6 +157,20 @@ public class CS445Project2 {
                         
                     case "T":
                         System.out.println("Beginning trasnformations...");
+                        i++; // move forward 1 element since 'T' was detected
+                        if(fileData[i].charAt(0) == 'r') {
+                            i++;// r character detected so move up 1
+                                // next number is degrees to rotate
+                            // next 2 are coordinates to rotate around
+                        } else if(fileData[i].charAt(0) == 's') {
+                            i++;// s character detected so move up 1
+                            // next 2 numbers are x and y scaling cals respectiv
+                            // next 2 nums are the pivot point
+                        } else if(fileData[i].charAt(0) == 't') {
+                            i++;// t char, move up 1
+                            // next 2 nums are translation coordinates
+                        }
+                        
                         
                         
                 }// End of switch

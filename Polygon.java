@@ -13,9 +13,11 @@ import java.util.ArrayList;
 
 
 public class Polygon {
+    
     private ArrayList<Vertex> vertices;
     private ArrayList<Edge> edges;
     private float[] color;
+    
     
     public Polygon(){
         vertices = new ArrayList();
@@ -24,11 +26,14 @@ public class Polygon {
     }
     
     
+    // Method:
+    // Purpose:
     public void setColor(float r, float g, float b) {
         color[0] = r;
         color[1] = g;
         color[2] = b;
-    }
+    }// End of setColor
+    
     
     // Method: addVertex
     // Purpose: Adds new vertex to vertex list and also creates a new edge from
@@ -53,14 +58,29 @@ public class Polygon {
         } else {
             System.out.printf("(%f,%f) already exists for this polygon ", x, y);
         }
-    }
+    }// End of addVertex
     
+    
+    // Method:
+    // Purpose:
     private void updateEdges(Vertex newVert) {
         // The new vertex is now the last and indices start a 0. So attach the
         // previous vertex to the new one and then the new one to the first
         int prevLastVert = vertices.size() - 2;
         edges.add(new Edge(vertices.get(prevLastVert), newVert));
         edges.add(new Edge(newVert, vertices.get(0)));
+    }// End of updateEdges
+    
+    public void rotate(float degrees, float xPivot, float yPivot) {
+        
     }
     
-}
+    public void scale(float xScale, float yScale, float xPivot, float yPivot) {
+        
+    }
+    
+    public void translate(float x, float y) {
+        
+    }
+    
+}// End of class
