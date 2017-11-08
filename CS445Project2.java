@@ -4,7 +4,7 @@
 * Class: CS 445 - Computer Graphics
 * 
 * Assignment: Project 2
-* Date last modified: 11//17
+* Date last modified: 11/6/17
 *
 * Purpose: This program will load information from a text file
 * which specifies a polygon along with transformation to be made 
@@ -34,7 +34,8 @@ import java.util.ArrayList;
 
 public class CS445Project2 {
 
-    // Setting up width, height, and 
+    // Setting up width, height, fileData to hold data from file, and an
+    // ArrayList to hold onto polygons that need to be drawn
     public static final int DISPLAY_HEIGHT = 480;
     public static final int DISPLAY_WIDTH = 640;
     private static String[] fileData;
@@ -47,7 +48,7 @@ public class CS445Project2 {
         try {
             Display.setFullscreen(false);
             Display.setDisplayMode(new DisplayMode(DISPLAY_WIDTH, DISPLAY_HEIGHT));
-            Display.setTitle("CS445 Project 1");
+            Display.setTitle("CS445 Project 2");
             Display.create();
         } catch(Exception e) {
             e.printStackTrace();
@@ -57,14 +58,12 @@ public class CS445Project2 {
 
 	 
     // Method: initGL()
-    // Purpose: Method in charge of initiatin
+    // Purpose: Method in charge of initiating openGL
     private void initGL() {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-
-        glOrtho(0, 640, 0, 480, 1, -1);
+        glOrtho(-320, 320, -240, 240, 1, -1);
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     } // End of initGL
@@ -74,6 +73,7 @@ public class CS445Project2 {
     // Purpose: Thread that handles running all other methods
     public void start() {
         try {
+            createPolygons();
             createWindow();
             initGL();
             render();
@@ -86,23 +86,29 @@ public class CS445Project2 {
     
     
     // Method: render
-    // Purpose: Renders out background, reads info from file, and draws
-    // out appropriate shapes and colors
+    // Purpose: Renders out background
     private void render(){
         while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             // Clear screen and depth buffers
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
             // Setting of background
             glColor3f(0.0f,0.0f,0.0f);
-            
+            drawPolygons();
+            Display.update();
+            Display.sync(60);
         }
     }
     
+    private void drawPolygons(){
+        for(Polygon p : polygons){
+                p.draw();
+            }
+    }
     
-    // Method:
-    // Purpose:
-    public static void main(String[] args){
+    
+    public static void createPolygons(){
+        polygons = new ArrayList<Polygon>();
+        Polygon newPoly;
         try{
             File file = new File("src\\cs445\\project2\\coordinates.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -113,12 +119,11 @@ public class CS445Project2 {
             fileData = allData.split("[, ]");
             
             for(int i = 0; i < fileData.length; i++) {
+                String currData = fileData[i];
                 
-                String currData = fileData[i].toUpperCase();
-                switch(currData) {
-                    case "P":
+                if(currData.equals("P")){
                         System.out.println("Polygon created..");
-                        Polygon newPoly = new Polygon();
+                        newPoly = new Polygon();
                         // Next 3 elements are RGB values
                         newPoly.setColor(Float.parseFloat(fileData[i + 1]),
                                          Float.parseFloat(fileData[i + 2]),
@@ -133,58 +138,58 @@ public class CS445Project2 {
                         
                         // The 'P' and RGB values take up 4 elements
                         int j = i + 4; 
+                        i += 4;
                         
                         while(true) {
-                            System.out.println("Careful in loop");//delete
                             try {
                                 newPoly.addVertex(Float.parseFloat(fileData[j]),
                                               Float.parseFloat(fileData[j + 1]));
                                 numVerts++;
-                                j +=2;
+                                j += 2;
                             } catch(NumberFormatException e) {
-                                System.out.println("Transformation command detected");
                                 break;
                             }
                         }// End of while loop
                         
                         // j kept track of things inside while loop, so i has
-                        // to be updated. numVerts has to jump i past all the
-                        // vertices and to the element that begins the commands
-                        // for transformations
+                        // to be updated. numVerts has to jump the index i 
+                        // past all the vertices and to the element that begins 
+                        // the commands for transformations
                         i += (numVerts * 2);
                         
-                    case "T":
-                        System.out.println("Beginning trasnformations...");
-                        i++; // move forward 1 element since 'T' was detected
-                        int k = i;
-                        // After a 'T' this loop will continue until the next 'p'
-                        // It will save the transformation commands and add them
-                        // to the polygon object which will take care of what
-                        // to do with them
-                        ArrayList<String> temp = new ArrayList();
-                        while(!fileData[k].equals("P")) {
-                            temp.add(fileData[k]);
-                            k++;
-                            /*if(fileData[i].charAt(0) == 'r') {
-                                i++;// r character detected so move up 1
-                                float degrees, x1, y1, x2, y2;
-                                degrees = Float.parseFloat(fileData[i]); // next number is degrees to rotate
-                                x1 = Float.parseFloat(fileData[i + 1]); // next 2 are coordinates to rotate around
-                                y1 = Float.parseFloat(fileData[i + 2]);
-                                x2 = Float.parseFloat(fileData[i + 3]);
-                                y2 = Float.parseFloat(fileData[i + 4]);
-                            } else if(fileData[i].charAt(0) == 's') {
-                                i++;// s character detected so move up 1
-                                // next 2 numbers are x and y scaling cals respectiv
-                                // next 2 nums are the pivot point
-                            } else if(fileData[i].charAt(0) == 't') {
-                                i++;// t char, move up 1
-                                // next 2 nums are translation coordinates
-                            }*/
-                        }
-                        
-                }// End of switch
-                System.out.println(fileData[i]);
+                        if(fileData[i].equals("T")){
+                            
+                            i++; // move forward 1 element since 'T' was detected
+                            int k = i;
+                            // Will apply transformation as they're read in to the polygon
+                            while(!fileData[k].equals("P")){
+                                if(fileData[k].equals("r")) {
+                                    newPoly.rotate(Float.parseFloat(fileData[k + 1]), // degrees
+                                           Float.parseFloat(fileData[k + 2]), // pivot point
+                                           Float.parseFloat(fileData[k + 3]));
+                                    k += 3;
+                                } else if(fileData[k].equals("s")) {
+                                    newPoly.scale(Float.parseFloat(fileData[k+1]), // x factor
+                                        Float.parseFloat(fileData[k+2]), // y factor
+                                        Float.parseFloat(fileData[k+3]), // pivot point
+                                        Float.parseFloat(fileData[k+4]));
+                                    k += 4;
+                                } else if(fileData[k].equals("t")) { // next 2 are parameters
+                                    newPoly.translate(Float.parseFloat(fileData[k+1]), // x change 
+                                                Float.parseFloat(fileData[k+2]));// y change
+                                    k += 2;
+                                }
+                                if(k == fileData.length - 1){break;}
+                                k++;
+                            } // End of while loop
+                            i = k - 1; // Update i but keep it on the "P"
+                            // Update polygon edges then add it to the polygons ArrayList
+                            newPoly.updateEdges();
+                            polygons.add(newPoly);
+                        }// End of if(fileData[i].equals("T"))
+                         
+                } // End of if(currData.equals("P"))
+                
             }// End of for loop
             
         }catch(FileNotFoundException e) {
@@ -194,6 +199,15 @@ public class CS445Project2 {
             e.printStackTrace();
         }// End of try catch
         
+       
+    }// End of createPolygons
+    
+    // Method: main
+    // Purpose: Program execution begins here. Also handles importing data from
+    // file coordinates.txt
+    public static void main(String[] args){
+        CS445Project2 main = new CS445Project2();
+        main.start();
     }// End of main
     
 }
